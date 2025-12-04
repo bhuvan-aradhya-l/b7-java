@@ -1,5 +1,10 @@
 pipeline {
     agent any
+	
+	tools {
+ 		maven 'MAVEN_3'
+	}
+	
     stages {
         stage('Initialize') {
             steps {
@@ -16,14 +21,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo "Building the application..."
-				sh 'mvn clean install'
+                sh 'mvn clean install'
             }
         }
 
         stage('Test') {
             steps {
                 echo "Executing tests..."
-				sh 'mvn test'
+                sh 'mvn test'
             }
         }
 
@@ -32,13 +37,14 @@ pipeline {
                 echo "Deploying application..."
             }
         }
-		post {
-        	success {
-            	echo 'Build completed successfully!'
-        	}
-        	failure {
-            	echo 'Build failed!'
-        	}
     }
-}
+
+    post {
+        success {
+            echo 'Build completed successfully!'
+        }
+        failure {
+            echo 'Build failed!'
+        }
+    }
 }
